@@ -107,6 +107,9 @@ export default function Dashboard() {
       console.error("Ett fel uppstod under utloggningen:", error);
     }
   };
+
+  console.log(messages); // För att se aktuella meddelanden som ska renderas
+
   return (
     <div className="text-white bg-gray-900 p-5">
       {" "}
@@ -152,7 +155,7 @@ export default function Dashboard() {
             </button>{" "}
           </form>
           {messages.length > 0 && (
-            <div className="mt-10">
+            <div className="mt-10 text-white">
               {messages.map((message) => (
                 <div
                   key={message.id}
