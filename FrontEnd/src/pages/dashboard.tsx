@@ -31,6 +31,7 @@ export default function Dashboard() {
       const API_URL = "http://127.0.0.1:3013/api/v1/user/blog";
       try {
         const response = await fetch(API_URL, {
+          method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok) {
@@ -64,7 +65,7 @@ export default function Dashboard() {
       return;
     }
 
-    const API_URL = "http://127.0.0.1:3013/api/v1/user/blog"; // Antaget API URL för att skicka inlägg
+    const API_URL = "http://127.0.0.1:3013/api/v1/user/blog";
 
     try {
       const response = await fetch(API_URL, {
@@ -107,9 +108,8 @@ export default function Dashboard() {
     }
   };
   return (
-    <div className="text-white bg-gray-900  p-5">
+    <div className="text-white bg-gray-900 p-5">
       {" "}
-      {/* Använder Tailwind för styling */}
       <h1 className="text-2xl font-bold mb-5">Skapa ett Blogginlägg</h1>
       {!isLoggedIn ? (
         <p>Du måste logga in för att kunna skriva ett blogginlägg!</p>
@@ -124,7 +124,7 @@ export default function Dashboard() {
               onChange={handleChange}
               placeholder="Titel"
               required
-              className="w-full p-2 rounded-md text-black" // Förbättrade Tailwind-klasser för styling av input
+              className="w-full p-2 rounded-md text-black"
             />
             <input
               type="text"
@@ -150,19 +150,13 @@ export default function Dashboard() {
             >
               Skicka
             </button>{" "}
-            {/* Uppdaterad Tailwind CSS för knappen */}
           </form>
-          {/* Kontrollera om det finns meddelanden att visa */}
           {messages.length > 0 && (
             <div className="mt-10">
               {messages.map((message, index) => (
                 <div key={index} className="bg-gray-800 p-4 rounded-lg mb-4">
                   <p>{message.content}</p>{" "}
-                  {/* Visar innehållet i meddelandet */}
-                  <p className="text-sm mt-2">
-                    Författare: {message.author}
-                  </p>{" "}
-                  {/* Visar författaren till meddelandet */}
+                  <p className="text-sm mt-2">Författare: {message.author}</p>{" "}
                 </div>
               ))}
             </div>

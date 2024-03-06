@@ -1,6 +1,8 @@
 //src/app/component/controller/index.ts
 import { logger } from "../../libs/logger";
 import { post, get, postBlog } from "../use-cases";
+import createGetBlog from "../use-cases/getBlog"; // Antag att detta är korrekt importväg
+
 import config from "../../config";
 const baseUrl = "/api/v1/user";
 
@@ -36,6 +38,20 @@ const postBlogEP = async (req, res) => {
     res.status(201).json({ err: 0, data: results });
   } catch (err) {
     logger.error(`[EP][POSTBLOG] ${req.method}: ${err.message}`);
+    res.status(500).json({ err: 1, data: err.message });
+  }
+};
+
+// Skapar en instans av getBlog användarfall
+const getBlog = createGetBlog({ logger });
+
+// Uppdaterad funktion för att hämta blogginlägg
+const getBlogPostsEP = async (req, res) => {
+  try {
+    const results = await getBlog.getBlog({ dbConfig: config.DB_CONFIG });
+    res.json({ err: 0, data: results });
+  } catch (err) {
+    logger.error(`[EP][GETBLOGPOSTS] ${req.method}: ${err.message}`);
     res.status(500).json({ err: 1, data: err.message });
   }
 };

@@ -45,3 +45,19 @@ export const insertBlogPost = async ({ post, dbConfig }) => {
     await client.close();
   }
 };
+
+// Modifierad getBlogPosts för att undvika type error
+export const getBlogPosts = async ({ query = {}, dbConfig }) => {
+  const client = new MongoClient(dbConfig.dbUri);
+  try {
+    await client.connect();
+    const db = client.db(dbConfig.dbName);
+    const collection = db.collection("blogPosts");
+    const posts = await collection.find(query).toArray();
+    return posts;
+  } catch (error) {
+    throw new Error(`Kunde inte hämta blogginlägg: ${error.message}`);
+  } finally {
+    await client.close();
+  }
+};
