@@ -9,6 +9,8 @@ export default function Register() {
     email: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
 
@@ -18,6 +20,7 @@ export default function Register() {
 
   const handleRegister = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
     setError("");
 
     const API_URL = "http://127.0.0.1:3013/api/v1/user";
@@ -40,6 +43,8 @@ export default function Register() {
       }
     } catch (error) {
       setError("Ett oväntat fel inträffade.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,13 +57,20 @@ export default function Register() {
       } flex flex-col items-center justify-center p-4`}
     >
       <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-md">
-        {!isRegistered && (
-          <>
-            <h2 className="text-2xl font-bold mb-4">
-              Välkommen till vår tjänst!
-            </h2>
-            <p className="mb-6">Registrera dig nedan för att komma igång.</p>
-          </>
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <div className="loader"></div>
+            <span className="visually-hidden">Laddar...</span>
+          </div>
+        ) : (
+          !isRegistered && (
+            <>
+              <h2 className="text-2xl font-bold mb-4">
+                Välkommen till vår tjänst!
+              </h2>
+              <p className="mb-6">Registrera dig nedan för att komma igång.</p>
+            </>
+          )
         )}
         {error && <p className="text-red-500">{error}</p>}
         {isRegistered ? (
