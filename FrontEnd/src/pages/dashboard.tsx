@@ -153,10 +153,16 @@ export default function Dashboard() {
           </form>
           {messages.length > 0 && (
             <div className="mt-10">
-              {messages.map((message, index) => (
-                <div key={index} className="bg-gray-800 p-4 rounded-lg mb-4">
-                  <p>{message.content}</p>{" "}
-                  <p className="text-sm mt-2">Författare: {message.author}</p>{" "}
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className="bg-gray-800 p-4 rounded-lg mb-4"
+                >
+                  <h2>{message.title}</h2>
+                  <p>{message.content}</p>
+                  <p className="text-sm mt-2 text-white">
+                    Författare: {message.author}
+                  </p>
                 </div>
               ))}
             </div>
