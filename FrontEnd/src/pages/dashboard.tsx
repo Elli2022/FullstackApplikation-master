@@ -180,8 +180,8 @@ export default function Dashboard() {
                   key={message._id}
                   className="text-white p-4 rounded-lg mb-4"
                 >
-                  <h2 className="text-white">{message.title}</h2>
-                  <p>{message.content}</p>
+                  <h2 className="text-white">Titel:{message.title}</h2>
+                  <p>Meddelande:{message.content}</p>
                   <p className="text-sm mt-2">Författare: {message.author}</p>
                 </div>
               ))}
