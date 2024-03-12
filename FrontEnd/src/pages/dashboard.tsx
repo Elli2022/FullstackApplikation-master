@@ -187,11 +187,11 @@ export default function Dashboard() {
             <div className="mt-10 text-white">
               {messages.map((message) => (
                 <div
-                  key={message._id}
-                  className="text-white p-4 rounded-lg mb-4"
+                  key={message._id} // Använder _id som key här
+                  className="bg-gray-800 p-4 rounded-lg mb-4"
                 >
-                  <h2 className="text-white">Titel:{message.title}</h2>
-                  <p>Meddelande:{message.content}</p>
+                  <h2>{message.title}</h2>
+                  <p>{message.content}</p>
                   <p className="text-sm mt-2">Författare: {message.author}</p>
                 </div>
               ))}
