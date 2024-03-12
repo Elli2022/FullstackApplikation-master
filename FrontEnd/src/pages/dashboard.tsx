@@ -68,7 +68,6 @@ export default function Dashboard() {
 
   const handleBlogPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Försöker posta nytt blogginlägg:", formData);
     if (!isLoggedIn) {
       console.error("Du måste logga in för att kunna skriva ett blogginlägg!");
       return;
@@ -76,7 +75,6 @@ export default function Dashboard() {
 
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
-    console.log("AnvändarID och token:", userId, token);
     if (!token) {
       console.error("Ingen token hittades i localStorage");
       return;
@@ -85,13 +83,14 @@ export default function Dashboard() {
     const API_URL = "http://127.0.0.1:3013/api/v1/user/blog";
 
     try {
+      const postBody = { ...formData, userId };
       const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...formData, userId }),
+        body: JSON.stringify(postBody),
       });
 
       if (!response.ok) {
@@ -100,6 +99,17 @@ export default function Dashboard() {
 
       const result = await response.json();
       console.log("Blogginlägg skickat, respons från server:", result);
+
+      // Uppdaterar lokalt tillstånd för att inkludera det nya inlägget.
+      if (result.data && result.err === 0) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { ...postBody, _id: result.data._id },
+        ]);
+      } else {
+        console.error("Något gick fel, inget nytt inlägg att lägga till");
+      }
+
       setFormData({ title: "", content: "", author: "" }); // Återställer formulärdata
     } catch (error) {
       console.error(
